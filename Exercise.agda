@@ -1,11 +1,11 @@
-{-# OPTIONS --without-K #-}
+{-# OPTIONS --without-K --type-in-type #-}
 module _ where
 
 data Bool : Set where
   true false : Bool
 
 Bool-elim
-  : ∀ {ℓ} (P : Bool → Set ℓ)
+  : ∀ (P : Bool → Set)
   → P true → P false
   → ∀ b → P b
 Bool-elim P Pt Pf true = Pt
@@ -23,16 +23,16 @@ data Void : Set where
 module _ where
   infix 4 _≡_
   postulate
-    _≡_ : ∀ {ℓ} {A : Set ℓ} → A → A → Set
-    refl : ∀ {ℓ} {A : Set ℓ} {x : A} → x ≡ x
-    sym : ∀ {ℓ} {A : Set ℓ} {x y : A} → x ≡ y → y ≡ x
+    _≡_ : ∀ {A : Set} → A → A → Set
+    refl : ∀ {A : Set} {x : A} → x ≡ x
+    sym : ∀ {A : Set} {x y : A} → x ≡ y → y ≡ x
 
     subst
-      : ∀ {ℓ ℓ′} {A : Set ℓ} (B : A → Set ℓ′) {x y : A}
+      : ∀ {A : Set} (B : A → Set) {x y : A}
       → (p : x ≡ y) → (B x → B y)
 
     cong
-      : ∀ {ℓ ℓ′} {A : Set ℓ} {B : Set ℓ′} → (f : A → B)
+      : ∀ {A B : Set} → (f : A → B)
       → ∀ {x y} → (p : x ≡ y) → f x ≡ f y
 
 
@@ -52,28 +52,28 @@ open import Data.Product
 
 -- More fragments of HoTT
 module _ where
-  isSet : ∀ {ℓ} → Set ℓ → Set ℓ
+  isSet : Set → Set
   isSet A = (x y : A) → ∀ (p q : x ≡ y) → p ≡ q
 
-  isEquiv : ∀ {ℓ ℓ′} {A : Set ℓ} {B : Set ℓ′} (f : A → B) → Set _
+  isEquiv : ∀ {A B : Set} (f : A → B) → Set _
   isEquiv {B = B} f = ∀ (y : B) → ∃ λ x → (f x ≡ y) × (∀ x′ → x ≡ x′ → f x′ ≡ y)
 
   infix 4 _≃_
-  _≃_ : ∀ {ℓ ℓ'} (A : Set ℓ) (B : Set ℓ') → Set _
+  _≃_ : ∀ (A B : Set) → Set _
   A ≃ B = Σ (A → B) isEquiv
 
-  id : ∀ {ℓ} {A : Set ℓ} → A → A
+  id : ∀ {A : Set} → A → A
   id b = b
 
-  idIsEquiv : ∀ {ℓ} {A : Set ℓ} → isEquiv (id {ℓ} {A})
+  idIsEquiv : ∀ {A : Set} → isEquiv (id {A})
   idIsEquiv x = x , refl , λ x′ p → sym p
 
-  idEquiv : ∀ {ℓ} {A : Set ℓ} → A ≃ A
+  idEquiv : ∀ {A : Set} → A ≃ A
   idEquiv = id , idIsEquiv
 
   postulate
-    ua : ∀ {ℓ} {A B : Set ℓ} → (A ≃ B) → (A ≡ B)
-    ua-inj : ∀ {ℓ} {A B : Set ℓ} (equiv equiv′ : A ≃ B) →
+    ua : ∀ {A B : Set} → (A ≃ B) → (A ≡ B)
+    ua-inj : ∀ {A B : Set} (equiv equiv′ : A ≃ B) →
       ua equiv ≡ ua equiv′ → equiv ≡ equiv′
 
 module UniverseIsNotASet where
