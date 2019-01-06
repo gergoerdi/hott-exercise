@@ -11,10 +11,8 @@ postulate
   _◾_ : {A : Set} {x y z : A} → x ≡ y → y ≡ z → x ≡ z
   sym : {A : Set} {x y : A} → x ≡ y → y ≡ x
 
-  subst
-    : {A : Set} (B : A → Set) {x y : A}
-    → (p : x ≡ y) → (B x → B y)
-
   cong
     : {A B : Set} → (f : A → B)
     → ∀ {x y} → (p : x ≡ y) → f x ≡ f y
+
+  coe : {A B : Set} → A ≡ B → A → B

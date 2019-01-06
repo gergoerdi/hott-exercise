@@ -7,8 +7,8 @@ data Bool : Set where
 Bool-elim
   : (P : Bool → Set)
   → P true → P false
-  → ∀ b → P b
-Bool-elim P Pt Pf true = Pt
+  → ∀ (b : Bool) → P b
+Bool-elim P Pt Pf true  = Pt
 Bool-elim P Pt Pf false = Pf
 
 data Unit : Set where
@@ -26,7 +26,7 @@ module BoolIsNotContractible where
   F = Bool-elim (λ _ → Set) Unit Void
 
   true≢false : ¬ (true ≡ false)
-  true≢false p = subst F p it
+  true≢false p = coe (cong F p) it
 
 -------------------------------------------------------------------------
 
