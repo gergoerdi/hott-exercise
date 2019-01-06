@@ -25,11 +25,8 @@ A ≃ B = Σ (A → B) isEquiv
 id : {A : Set} → A → A
 id b = b
 
-idIsEquiv : {A : Set} → isEquiv (id {A})
-idIsEquiv = (λ x x′ p → p) , (λ x → (x , refl))
-
 idEquiv : {A : Set} → A ≃ A
-idEquiv = id , idIsEquiv
+idEquiv = id , (λ x x′ p → p) , (λ x → (x , refl))
 
 postulate
   ua : {A B : Set} → (A ≃ B) → (A ≡ B)
