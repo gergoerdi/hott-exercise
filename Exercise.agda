@@ -19,7 +19,7 @@ data Void : Set where
 ¬_ : Set → Set
 ¬ A = A → Void
 
-open import MiniHoTT
+open import MiniHoTT1
 
 module BoolIsNotContractible where
   F : Bool → Set
@@ -32,6 +32,8 @@ module BoolIsNotContractible where
 
 U : Set _
 U = Set
+
+open import MiniHoTT2
 
 module UniverseIsNotSet where
   not : Bool → Bool

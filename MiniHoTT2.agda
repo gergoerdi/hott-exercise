@@ -1,26 +1,9 @@
--- A tiny fragment of HoTT, with paths and ua postulated, and some definitions.
+-- A tiny fragment of HoTT, with ua postulated, and some definitions.
 
 {-# OPTIONS --without-K --type-in-type #-}
 module _ where
 
-infix 4 _≡_
-infixl 4 _◾_
-postulate
-  _≡_ : {A : Set} → A → A → Set
-  refl : {A : Set} {x : A} → x ≡ x
-  _◾_ : {A : Set} {x y z : A} → x ≡ y → y ≡ z → x ≡ z
-  sym : {A : Set} {x y : A} → x ≡ y → y ≡ x
-
-  subst
-    : {A : Set} (B : A → Set) {x y : A}
-    → (p : x ≡ y) → (B x → B y)
-
-  cong
-    : {A B : Set} → (f : A → B)
-    → ∀ {x y} → (p : x ≡ y) → f x ≡ f y
-
--------------------------------------------------------------------------
-
+open import MiniHoTT1
 open import Data.Product public
 
 isSet : Set → Set
