@@ -76,7 +76,7 @@ module _ where
     ua-inj : ∀ {A B : Set} (equiv equiv′ : A ≃ B) →
       ua equiv ≡ ua equiv′ → equiv ≡ equiv′
 
-module UniverseIsNotASet where
+module UniverseIsNotSet where
   not : Bool → Bool
   not = Bool-elim (λ _ → Bool) false true
 
@@ -99,3 +99,9 @@ module UniverseIsNotASet where
 
       eq : true ≡ false
       eq = cong (λ f → f false) pFun
+
+  UIsNotSet : ¬ (isSet U)
+  UIsNotSet prf = notEquiv≢idEquiv pEquiv
+    where
+      pEquiv : ua notEquiv ≡ ua idEquiv
+      pEquiv = prf Bool Bool (ua notEquiv) (ua idEquiv)
